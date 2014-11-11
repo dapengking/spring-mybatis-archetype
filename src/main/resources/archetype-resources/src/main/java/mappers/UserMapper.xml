@@ -1,0 +1,68 @@
+#set( $symbol_pound = '#' )
+#set( $symbol_dollar = '$' )
+#set( $symbol_escape = '\' )
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="${package}.mappers.UserMapper">
+	<resultMap id="BaseResultMap" type="${package}.entities.User">
+		<id column="user_id" property="userId" jdbcType="INTEGER" />
+		<result column="username" property="username" jdbcType="VARCHAR" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		user_id, username
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from user
+		where user_id = ${symbol_pound}{userId,jdbcType=INTEGER}
+	</select>
+	<select id="selectAll" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from user
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from user
+		where user_id = ${symbol_pound}{userId,jdbcType=INTEGER}
+	</delete>
+	<insert id="insert" parameterType="${package}.entities.User">
+		insert into user (user_id, username)
+		values (${symbol_pound}{userId,jdbcType=INTEGER}, ${symbol_pound}{username,jdbcType=VARCHAR})
+	</insert>
+	<insert id="insertSelective" parameterType="${package}.entities.User">
+		insert into user
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="userId != null">
+				user_id,
+			</if>
+			<if test="username != null">
+				username,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="userId != null">
+				${symbol_pound}{userId,jdbcType=INTEGER},
+			</if>
+			<if test="username != null">
+				${symbol_pound}{username,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="${package}.entities.User">
+		update user
+		<set>
+			<if test="username != null">
+				username = ${symbol_pound}{username,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where user_id = ${symbol_pound}{userId,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="${package}.entities.User">
+		update user
+		set username = ${symbol_pound}{username,jdbcType=VARCHAR}
+		where user_id = ${symbol_pound}{userId,jdbcType=INTEGER}
+	</update>
+</mapper>
